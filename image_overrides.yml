@@ -1,0 +1,105 @@
+apiVersion: kbld.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.19.0
+overrides:
+- image: cfidentity/uaa@sha256:016363eba9544ada12c16ac1e66a7e02241b1ec8074d61f5fa8fd6d7edee3d69
+  newImage: registry.pivotal.io/tas-for-kubernetes/uaa-annotated@sha256:b2d8c01426f451fa39bc302e3516bf4b5ab2652874f949be4ced26aa451adab7
+  preresolved: true
+- image: cloudfoundry/capi-kpack-watcher:956150dae0a95dcdf3c1f29c23c3bf11db90f7a0@sha256:67125e0d3a4026a23342d80e09aad9284c08ab4f7b3d9a993ae66e403d5d0796
+  newImage: registry.pivotal.io/tas-for-kubernetes/capi-kpack-watcher-annotated@sha256:8958b568978de3f093571439d93fb4895ccdd281123b79f4eba56c6be121eadf
+  preresolved: true
+- image: cloudfoundry/capi:nginx@sha256:51e4e48c457d5cb922cf0f569e145054e557e214afa78fb2b312a39bb2f938b6 
+  newImage: registry.pivotal.io/tas-for-kubernetes/capi-annotated@sha256:7560ed0a1175f8a93dcb2ee0a26dbe7127fb0410b801b62861491a0f96b07255
+  preresolved: true
+- image: cloudfoundry/cloud-controller-ng:33f461df533c7174241b00759bb7622ea37c58c7@sha256:0bc1b2b3e0c2fcfbd76d7c4a311b728a240b928fcd8d2b2b1e057de88a0adacf
+  newImage: registry.pivotal.io/tas-for-kubernetes/cloud-controller-ng-annotated@sha256:62f9f3e974ceba981a92b3e508c11e233e4a149a5e76be53c18f63e7a591e61d
+  preresolved: true
+- image: cloudfoundry/cnb:0.0.55-bionic
+  newImage: registry.pivotal.io/tas-for-kubernetes/cnb-annotated@sha256:1d5d893cf2444efeb5d16a471a0fd8cda088a63736c5bceb477a9c342b51b955
+  preresolved: true
+- image: dev.registry.pivotal.io/tas-for-kubernetes/pod-webhook@sha256:6120f15c80ceef2bc66602f79acefb5766f9ab602d9146dd04d9eb3569256a12
+  newImage: registry.pivotal.io/tas-for-kubernetes/pod-webhook-annotated@sha256:4fde3257d4a42557a4184abdbf9ffe3a44e89c0b305df0ac5da13890be632cd7
+  preresolved: true
+- image: dev.registry.pivotal.io/tas-for-kubernetes/setup-ca-certs@sha256:cfe932fcf7ed158b31a9ddca5241e56a295fa7b88cddc3c8c376b58393c524b6
+  newImage: registry.pivotal.io/tas-for-kubernetes/setup-ca-certs-annotated@sha256:df984ea209ad8ddedd13a1f37793a0f8f728ab0cca5479ecd60801ba915e6ab5
+  preresolved: true
+- image: docker.io/bitnami/postgresql:11.7.0-debian-10-r26
+  newImage: registry.pivotal.io/tas-for-kubernetes/postgres-bionic-annotated@sha256:e7dd977c4de19a3848c16843f7cd724ad44141433c2460fc1297bab8b70e414c
+  preresolved: true
+- image: docker.io/istio/citadel:1.4.5
+  newImage: registry.pivotal.io/tas-for-kubernetes/citadel-annotated@sha256:b8e5503716365ce3919508d72c4555e6581731c2cd56a5d3e123547c276bf541
+  preresolved: true
+- image: docker.io/istio/galley:1.4.5
+  newImage: registry.pivotal.io/tas-for-kubernetes/galley-annotated@sha256:bd723793a3ae89f1b04c639a2a60717355e509a5a4734b9fcecc75b6ede558be
+  preresolved: true
+- image: docker.io/istio/mixer:1.4.5
+  newImage: registry.pivotal.io/tas-for-kubernetes/mixer-annotated@sha256:b9472ceaa66dcc34e3ca49813c994ddde6af49ab86bc07ca981ba1f3763d2e00
+  preresolved: true
+- image: docker.io/istio/node-agent-k8s:1.4.5
+  newImage: registry.pivotal.io/tas-for-kubernetes/node-agent-k8s-annotated@sha256:6519f82af6e85210d0ab81c6b88ae7632073fd98d203e1e073eb0db675fcc45a
+  preresolved: true
+- image: docker.io/istio/pilot:1.4.5
+  newImage: registry.pivotal.io/tas-for-kubernetes/pilot-annotated@sha256:5fc0e678e471be946719f9a866ac99252d3c7a7d1561020ed34adfba4c457e58
+  preresolved: true
+- image: docker.io/istio/proxyv2:1.4.5
+  newImage: registry.pivotal.io/tas-for-kubernetes/proxyv2-annotated@sha256:d7792fed2b3e7ffc84bfc50f693a9dd8960883ea9685b12ae1f1ef7ee2133ea3
+  preresolved: true
+- image: docker.io/istio/sidecar_injector:1.4.5
+  newImage: registry.pivotal.io/tas-for-kubernetes/sidecar_injector-annotated@sha256:81e94732e7301ea9bc568adc391b68c0a1efbdd6f4ac28540d023daa2140d0e5
+  preresolved: true
+- image: eirini/opi@sha256:2e0b84c5fcb1e6e5cdb07a70210f2e462aa52119f7a330660a7444a938deefbb
+  newImage: registry.pivotal.io/tas-for-kubernetes/opi-annotated@sha256:e11165c8070ca70be3dbbfdcf5763e7cbfe679c1c82724b5697a4400fed03cfb
+  preresolved: true
+- image: gcr.io/cf-build-service-public/kpack/build-init@sha256:b90a4d2c027ac6cf6b2904383211084d33d6faf9fed38a3d55a09b54e6f671bf
+  newImage: registry.pivotal.io/tas-for-kubernetes/build-init-annotated@sha256:b90a4d2c027ac6cf6b2904383211084d33d6faf9fed38a3d55a09b54e6f671bf
+  preresolved: true
+- image: gcr.io/cf-build-service-public/kpack/completion@sha256:e9cfca6b13c9a5beb70b92634c960cf3c9d8559b4b76f6b94366531705a95b96
+  newImage: registry.pivotal.io/tas-for-kubernetes/completion-annotated@sha256:e9cfca6b13c9a5beb70b92634c960cf3c9d8559b4b76f6b94366531705a95b96
+  preresolved: true
+- image: gcr.io/cf-build-service-public/kpack/controller@sha256:1d7d80257e2019a474417ba0c7dcfff5612aeec55e24d91ef7b2e4bd0a521a40
+  newImage: registry.pivotal.io/tas-for-kubernetes/controller-annotated@sha256:1d7d80257e2019a474417ba0c7dcfff5612aeec55e24d91ef7b2e4bd0a521a40
+  preresolved: true
+- image: gcr.io/cf-build-service-public/kpack/lifecycle@sha256:66f723ef7452af4c5d9dd8eec3ade77adcab27df677768acb3c825165f274c87
+  newImage: registry.pivotal.io/tas-for-kubernetes/lifecycle-annotated@sha256:66f723ef7452af4c5d9dd8eec3ade77adcab27df677768acb3c825165f274c87
+  preresolved: true
+- image: gcr.io/cf-build-service-public/kpack/rebase@sha256:925940d4802c183d0af69a99cfbf48bea5b27e4d9dc4bf363bf71bb34e8a318e
+  newImage: registry.pivotal.io/tas-for-kubernetes/rebase-annotated@sha256:925940d4802c183d0af69a99cfbf48bea5b27e4d9dc4bf363bf71bb34e8a318e
+  preresolved: true
+- image: gcr.io/cf-build-service-public/kpack/webhook@sha256:c2461ef9634c771f2a06bc0371040b43c9a78dd0e4ac1c9fde3f4525e0ae21f2
+  newImage: registry.pivotal.io/tas-for-kubernetes/webhook-annotated@sha256:c2461ef9634c771f2a06bc0371040b43c9a78dd0e4ac1c9fde3f4525e0ae21f2
+  preresolved: true
+- image: gcr.io/cf-networking-images/cf-k8s-networking/cfroutesync@sha256:758abd1b6144596cef74ad4805bc7e1a6055142cab5719f0d42d0321a14a190d
+  newImage: registry.pivotal.io/tas-for-kubernetes/cfroutesync-annotated@sha256:07dd28bbbb181298cf1e74e2a46206a9ac1778506a22c34898eb1cd6442e8f92
+  preresolved: true
+- image: logcache/cf-k8s-logging@sha256:44e20fa761fb67436eabd70a226d88ca7398619aaa2b3b468405017c75fd9607
+  newImage: registry.pivotal.io/tas-for-kubernetes/cf-k8s-logging-annotated@sha256:d50244b42ad1badd5d5874bca1a304e936703c7ec8546e7facd44688df2539b8
+  preresolved: true
+- image: logcache/log-cache-cf-auth-proxy@sha256:2fa3c3fc7a4d8ed006502aa239ca95a936ec69eb850de5790b057adcc26cb433
+  newImage: registry.pivotal.io/tas-for-kubernetes/log-cache-cf-auth-proxy-annotated@sha256:38c21741e93c66333840bdb3ccc3a4bcdec1d6fd980dc62d6eab8dbc5183eb8d
+  preresolved: true
+- image: logcache/log-cache-gateway@sha256:845998ef9769d78b43555eb18757b5f24571fefbe4a267c0ffa7e69071b38177
+  newImage: registry.pivotal.io/tas-for-kubernetes/log-cache-gateway-annotated@sha256:951001b19623415ff53f8e768447a33dc78acca29376592c2fdd7b18ada77cd7
+  preresolved: true
+- image: logcache/log-cache@sha256:1074a8a64f56d1967758cf9cbd3d388b2e5bd295768231ebbaa9ae8febb7e90a
+  newImage: registry.pivotal.io/tas-for-kubernetes/log-cache-annotated@sha256:278820d2f9495cd6d81b3b18f4986aff05c6c91b57eac59f69c944d843bc8bc8
+  preresolved: true
+- image: logcache/syslog-server@sha256:7a6c85226bb0f92e870c1bbe6555261c9946cdcd8fed2aeac854b7ea0b369a99
+  newImage: registry.pivotal.io/tas-for-kubernetes/syslog-server-annotated@sha256:dd9e60fcdc6fa2cd5270427c386e05358919af42988ff2ebda19c0114eb97d1e
+  preresolved: true
+- image: metacontroller/metacontroller:v0.4.0
+  newImage: registry.pivotal.io/tas-for-kubernetes/metacontroller-tiny-annotated@sha256:731da6e0c4d544e0529126d74b32ccbf7d334db96d60745163d72b1334d93fe3
+  preresolved: true
+- image: minio/minio:RELEASE.2020-01-16T22-40-29Z
+  newImage: registry.pivotal.io/tas-for-kubernetes/minio-bionic-annotated@sha256:106fea82bf6b97d27b73d924e1e4be2308b2e2895779ac0439dde5e57e3a7659
+  preresolved: true
+searchRules:
+- valueMatcher:
+    imageRepo: gcr.io/cf-build-service-public/kpack/build-init
+- valueMatcher:
+    imageRepo: gcr.io/cf-build-service-public/kpack/rebase
+- valueMatcher:
+    imageRepo: gcr.io/cf-build-service-public/kpack/completion
+- valueMatcher:
+    imageRepo: gcr.io/cf-build-service-public/kpack/lifecycle
+- valueMatcher:
+    imageRepo: dev.registry.pivotal.io/tas-for-kubernetes/setup-ca-certs

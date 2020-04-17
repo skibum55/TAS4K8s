@@ -1,0 +1,10 @@
+#@data/values
+---
+#@overlay/match missing_ok=True
+system_registry:
+  hostname: ""
+  username: ""
+  password: ""
+
+#@overlay/match expects=0
+istio_proxyv2_image: "registry.pivotal.io/tas-for-kubernetes/proxyv2-annotated@sha256:d7792fed2b3e7ffc84bfc50f693a9dd8960883ea9685b12ae1f1ef7ee2133ea3"

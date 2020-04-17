@@ -1,0 +1,9 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'feat: bump kpack to 0.0.8...'
+      sha: 38eacfe5b871546dafa90c0323112a7d1432b9c0
+    path: cf-for-k8s
+  path: config
+kind: LockConfig

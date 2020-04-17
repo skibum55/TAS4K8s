@@ -1,0 +1,9 @@
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"spec":{"type":"LoadBalancer"}})
+---
+spec:
+  #@overlay/replace
+  type: ClusterIP
+  #@overlay/remove
+  externalTrafficPolicy: Local

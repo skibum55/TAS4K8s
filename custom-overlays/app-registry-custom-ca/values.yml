@@ -1,0 +1,12 @@
+#@data/values
+---
+#@overlay/match expects=0
+kpack_webhook_server_tls:
+  crt: "" #! Base64-encoded cert for webhook server
+  key: "" #! Base64-encoded private key for webhook server
+  ca: ""
+
+app_registry:
+  #! PEM encoded CA certificate for communicating with app registry
+  #@overlay/match expects=0
+  ca: ""

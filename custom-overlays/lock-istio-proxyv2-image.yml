@@ -1,0 +1,32 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:json", "json")
+#@ load("@ytt:data", "data")
+
+#! This overlay asserts that istio continues to use proxyv2:1.4.5;
+#! this is useful to us since we are hardcoding that version for sidecars
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":"istio-galley"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+      #@overlay/match by="name"
+      - name: istio-proxy
+        #@overlay/assert
+        image: docker.io/istio/proxyv2:1.4.5
+
+#@ def lock_proxyv2_image(old, new):
+#@   result = json.decode(old)
+#@   result["global"]["proxy_init"]["image"] = data.values.istio_proxyv2_image
+#@   result["global"]["proxy"]["image"] = data.values.istio_proxyv2_image
+#@   return json.encode(result)
+#@ end
+
+#! Currently kbld does not see into structured values to find image references,
+#! so hard code proxyv2 to a particular value for now
+#! (https://www.pivotaltracker.com/story/show/172087607)
+#@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata":{"name": "istio-sidecar-injector"}})
+---
+data:
+  #@overlay/replace via=lock_proxyv2_image
+  values:

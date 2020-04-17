@@ -1,0 +1,17 @@
+#@ load("@ytt:overlay", "overlay")
+
+#! This ensures the CA is added to kpack-controller pod by the build-service-webhook
+#@overlay/match by=overlay.subset({"kind": "Deployment", "metadata":{"name": "kpack-controller"}})
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    #@overlay/match expects=0
+    kapp.k14s.io/change-rule.kpack-registry-ca: "upsert after upserting buildservice.pivotal.io/webhook"
+spec:
+  template:
+    metadata:
+      #@overlay/match missing_ok=True
+      annotations:
+        #@overlay/match expects=0
+        buildservice.pivotal.io: kpack-controller

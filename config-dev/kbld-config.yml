@@ -1,0 +1,15 @@
+apiVersion: kbld.k14s.io/v1alpha1
+kind: Config
+metadata:
+  name: kbld-config
+searchRules:
+- valueMatcher:
+    imageRepo: gcr.io/cf-build-service-public/kpack/build-init
+- valueMatcher:
+    imageRepo: gcr.io/cf-build-service-public/kpack/rebase
+- valueMatcher:
+    imageRepo: gcr.io/cf-build-service-public/kpack/completion
+- valueMatcher:
+    imageRepo: gcr.io/cf-build-service-public/kpack/lifecycle
+- valueMatcher: 
+    imageRepo: dev.registry.pivotal.io/tas-for-kubernetes/setup-ca-certs

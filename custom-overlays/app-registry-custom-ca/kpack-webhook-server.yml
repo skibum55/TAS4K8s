@@ -1,0 +1,110 @@
+#! TODO: work with build service to source this with vendir & overlay rather than copy&edit.
+#! This is a barely modified version of https://github.com/pivotal/build-service/blob/master/deployments/duffle/cnab/app/pod-webhook/deployment.yaml
+
+#@ load("@ytt:data", "data")
+#@ load("@ytt:base64", "base64")
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: build-service
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  webhook-server-tls
+  namespace: build-service
+type: kubernetes.io/tls
+data:
+  tls.key: #@ data.values.kpack_webhook_server_tls.key
+  tls.crt: #@ data.values.kpack_webhook_server_tls.crt
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  webhook-server-ca-cert
+  namespace: build-service
+data:
+  ca.crt: #@ base64.encode(data.values.app_registry.ca)
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhook-server
+  namespace: build-service
+  labels:
+    app: webhook-server
+  annotations:
+    kapp.k14s.io/change-group: "buildservice.pivotal.io/webhook-server"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webhook-server
+  template:
+    metadata:
+      labels:
+        app: webhook-server
+      annotations:
+        buildservice.pivotal.io: webhook-server
+    spec:
+      containers:
+      - name: server
+        image: dev.registry.pivotal.io/tas-for-kubernetes/pod-webhook@sha256:6120f15c80ceef2bc66602f79acefb5766f9ab602d9146dd04d9eb3569256a12
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8443
+          name: webhook-api
+        volumeMounts:
+        - name: webhook-tls-certs
+          mountPath: /run/secrets/tls
+          readOnly: true
+        - name: webhook-ca-cert
+          mountPath: /run/config_maps/ca_cert
+          readOnly: true
+        env:
+        - name: SETUP_CA_CERTS_IMAGE
+          value: dev.registry.pivotal.io/tas-for-kubernetes/setup-ca-certs@sha256:cfe932fcf7ed158b31a9ddca5241e56a295fa7b88cddc3c8c376b58393c524b6
+      volumes:
+      - name: webhook-tls-certs
+        secret:
+          secretName: webhook-server-tls
+      - name: webhook-ca-cert
+        configMap:
+          name: webhook-server-ca-cert
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhook-server
+  namespace: build-service
+spec:
+  selector:
+    app: webhook-server
+  ports:
+  - port: 443
+    targetPort: webhook-api
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: build-service-webhook
+  annotations:
+    kapp.k14s.io/change-rule.kpack-webhook-server: "upsert after upserting buildservice.pivotal.io/webhook-server"
+    kapp.k14s.io/change-group: "buildservice.pivotal.io/webhook"
+webhooks:
+- name: webhook-server.build-service-webhook.svc
+  clientConfig:
+    service:
+      name: webhook-server
+      namespace: build-service
+      path: "/mutate"
+    caBundle: #@ data.values.kpack_webhook_server_tls.ca
+  rules:
+  - operations: ["CREATE", "UPDATE"]
+    apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+  #! TODO: We should contribute this upstream
+  failurePolicy: Fail
